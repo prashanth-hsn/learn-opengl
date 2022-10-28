@@ -1,11 +1,9 @@
-
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "glfw_callbacks.h"
 #include "gl_objects.h"
-
+#include "shader_s.h"
 
 void processInput(GLFWwindow *window)
 {
@@ -40,6 +38,8 @@ int main(void)
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+
+    Shader ourShader("../shader/3.3.shader.vs", "../shader/3.3.shader.fs");
     if (!setUpTriangle())
         return 0;
 
@@ -53,7 +53,7 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        DrawTriangle();
+        DrawTriangle(ourShader);
 
         //check and call events and swap buffers
         glfwSwapBuffers(window);
