@@ -13,6 +13,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(3rdparty/glfw-3.3.8)
 
 include_directories( 3rdparty/glad/include )
+include_directories( 3rdparty/stb)
 
 add_executable(learn_ogl
     src/main.cpp
@@ -20,7 +21,8 @@ add_executable(learn_ogl
     src/glfw_callbacks.cpp
     src/gl_objects.h
     src/gl_objects.cpp
-    3rdparty/glad/src/glad.c
+    3rdparty/stb/stb_image.h
+    3rdparty/glad/src/glad.c    
     src/shader_s.h)
 
 target_link_libraries(learn_ogl glfw ${OPENGL_LIBRARIES} X11 pthread Xrandr Xi dl)
