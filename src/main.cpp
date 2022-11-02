@@ -5,10 +5,27 @@
 #include "gl_objects.h"
 #include "shader_s.h"
 
+
+float mixValue = 0.2f;
+
 void processInput(GLFWwindow *window)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
+        mixValue += 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+        if(mixValue >= 1.0f)
+            mixValue = 1.0f;
+    }
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
+        mixValue -= 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+        if (mixValue <= 0.0f)
+            mixValue = 0.0f;
+    }
+
 }
 
 int main(void)
@@ -40,7 +57,7 @@ int main(void)
 
 
     Shader ourShader("../shader/3.3.shader.vs", "../shader/3.3.shader.fs");
-    if (!setUpTriangle())
+    if (!setUpTriangle(ourShader))
         return 0;
 
     // render loop
@@ -53,6 +70,8 @@ int main(void)
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        ourShader.use();
+        ourShader.setFloat("mixValue", mixValue);
         DrawTriangle(ourShader);
 
         //check and call events and swap buffers

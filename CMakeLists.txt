@@ -15,7 +15,10 @@ add_subdirectory(3rdparty/glfw-3.3.8)
 include_directories( 3rdparty/glad/include )
 include_directories( 3rdparty/stb)
 
+file(GLOB RES_FILES shader/*.fs shader/*.vs)
+
 add_executable(learn_ogl
+    ${RES_FILES}
     src/main.cpp
     src/glfw_callbacks.h
     src/glfw_callbacks.cpp

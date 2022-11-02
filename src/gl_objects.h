@@ -3,7 +3,7 @@
 
 class Shader;
 
-bool setUpTriangle ();
+bool setUpTriangle (Shader &ourShader);
 void DrawTriangle(Shader &ourShader);
 void deleteTriangle();
 
