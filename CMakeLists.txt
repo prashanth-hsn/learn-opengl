@@ -15,6 +15,7 @@ add_subdirectory(3rdparty/glm-0.9.9.8)
 
 include_directories( 3rdparty/glad/include )
 include_directories( 3rdparty/stb)
+include_directories( 3rdparty/glm-0.9.9.8)
 
 file(GLOB RES_FILES shader/*.fs shader/*.vs)
 
