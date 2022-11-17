@@ -165,8 +165,8 @@ bool setUpTriangle (Shader &ourShader)
 
     // View
     glm::mat4 view = glm::mat4(1.0f);
-    // note that we're translating the scene in the reverse direction of where we want to move
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+    view = glm::lookAt(glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 0.f, 0.f), glm::vec3(9.f, 1.f, 0.f));
 
     // Projection
     glm::mat4 projection;
@@ -191,19 +191,31 @@ void DrawTriangle(Shader &ourShader)
 
     ourShader.use();
 
+    const float radius = 10.f;
+    int viewLoc = glGetUniformLocation(ourShader.ID, "view");
     int modelLoc = glGetUniformLocation(ourShader.ID, "model");
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
+
+    float camX = sin(glfwGetTime()) * radius;
+    float camZ = cos(glfwGetTime()) * radius;
+
+    glm::mat4 view = glm::lookAt(glm::vec3(camX, 0.f, camZ), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
     glBindVertexArray(VAO);
     for(unsigned int i = 0; i < 10; i++)
     {
+
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, cubePositions[i]);
         float angle = 20.0f * i;
-        model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        model = glm::rotate(model, glm::radians(angle),
+                            glm::vec3(1.0f, 0.3f, 0.5f));
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 
