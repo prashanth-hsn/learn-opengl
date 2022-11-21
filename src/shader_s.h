@@ -7,6 +7,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "logl_globals.h"
+
 class Shader
 {
 public:
@@ -26,8 +28,16 @@ public:
         try
         {
             // open files
-            vShaderFile.open(vertexPath);
-            fShaderFile.open(fragmentPath);
+            std::string vertexFullPath =  RESOURCE_PREFIX;
+            vertexFullPath.append("/");
+            vertexFullPath.append(vertexPath);
+
+            vShaderFile.open(vertexFullPath);
+
+            std::string fragmentFullPath = RESOURCE_PREFIX;
+            fragmentFullPath.append("/");
+            fragmentFullPath.append(fragmentPath);
+            fShaderFile.open(fragmentFullPath);
             std::stringstream vShaderStream, fShaderStream;
             // read file's buffer contents into streams
             vShaderStream << vShaderFile.rdbuf();

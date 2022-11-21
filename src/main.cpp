@@ -5,7 +5,6 @@
 #include "gl_objects.h"
 #include "shader_s.h"
 
-
 float mixValue = 0.2f;
 
 void processInput(GLFWwindow *window)
@@ -56,7 +55,7 @@ int main(void)
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-    Shader ourShader("../shader/3.3.shader.vs", "../shader/3.3.shader.fs");
+    Shader ourShader("shader/3.3.shader.vs", "shader/3.3.shader.fs");
     if (!setUpTriangle(ourShader))
         return 0;
 

@@ -26,9 +26,15 @@ add_executable(learn_ogl
     src/glfw_callbacks.cpp
     src/gl_objects.h
     src/gl_objects.cpp
+    src/logl_globals.h
     3rdparty/stb/stb_image.h
     3rdparty/glad/src/glad.c    
     src/shader_s.h)
 
-target_link_libraries(learn_ogl glfw ${OPENGL_LIBRARIES} X11 pthread Xrandr Xi dl)
+if (WIN32)
+    target_link_libraries(learn_ogl glfw ${OPENGL_LIBRARIES})
+else() 
+    target_link_libraries(learn_ogl glfw ${OPENGL_LIBRARIES} X11 pthread Xrandr Xi dl)
+endif()
+
 

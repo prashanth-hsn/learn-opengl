@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "logl_globals.h"
 
 float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -121,7 +122,9 @@ bool setUpTriangle (Shader &ourShader)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     // load and generate the texture
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("../resources/container.jpg", &width, &height, &nrChannels, 0);
+    std::string image_path = RESOURCE_PREFIX;
+    image_path.append("/resources/container.jpg");
+    unsigned char *data = stbi_load(image_path.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -141,7 +144,9 @@ bool setUpTriangle (Shader &ourShader)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     stbi_set_flip_vertically_on_load(true);
-    data = stbi_load("../resources/awesomeface.png", &width, &height, &nrChannels, 0);
+    image_path = RESOURCE_PREFIX;
+    image_path.append("/resources/awesomeface.png");
+    data = stbi_load(image_path.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
