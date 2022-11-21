@@ -27,6 +27,7 @@ add_executable(learn_ogl
     src/gl_objects.h
     src/gl_objects.cpp
     src/logl_globals.h
+    src/camera.h
     3rdparty/stb/stb_image.h
     3rdparty/glad/src/glad.c    
     src/shader_s.h)

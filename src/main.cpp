@@ -4,10 +4,14 @@
 #include "glfw_callbacks.h"
 #include "gl_objects.h"
 #include "shader_s.h"
-
+#include "camera.h"
 float mixValue = 0.2f;
 
-void processInput(GLFWwindow *window)
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
+
+void processInput(GLFWwindow *window, Camera& camera)
 {
     if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -24,6 +28,16 @@ void processInput(GLFWwindow *window)
         if (mixValue <= 0.0f)
             mixValue = 0.0f;
     }
+
+    float cameraSpeed = static_cast<float>(2.5 * deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.front(cameraSpeed);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.back(cameraSpeed);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.left(cameraSpeed);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.right(cameraSpeed);
 
 }
 
@@ -59,11 +73,16 @@ int main(void)
     if (!setUpTriangle(ourShader))
         return 0;
 
+    Camera camera;
     // render loop
     while(!glfwWindowShouldClose(window))
     {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         // input
-        processInput(window);
+        processInput(window, camera);
 
         // rendering commands
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -71,7 +90,7 @@ int main(void)
 
         ourShader.use();
         ourShader.setFloat("mixValue", mixValue);
-        DrawTriangle(ourShader);
+        DrawTriangle(ourShader, camera);
 
         //check and call events and swap buffers
         glfwSwapBuffers(window);

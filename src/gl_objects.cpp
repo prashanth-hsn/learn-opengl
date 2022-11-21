@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "logl_globals.h"
+#include "camera.h"
 
 float vertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -191,13 +192,12 @@ bool setUpTriangle (Shader &ourShader)
     return true;
 }
 
-void DrawTriangle(Shader &ourShader)
+void DrawTriangle(Shader &ourShader, Camera& camera)
 {
 
     ourShader.use();
 
     const float radius = 10.f;
-    int viewLoc = glGetUniformLocation(ourShader.ID, "view");
     int modelLoc = glGetUniformLocation(ourShader.ID, "model");
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture1);
@@ -207,7 +207,9 @@ void DrawTriangle(Shader &ourShader)
     float camX = sin(glfwGetTime()) * radius;
     float camZ = cos(glfwGetTime()) * radius;
 
-    glm::mat4 view = glm::lookAt(glm::vec3(camX, 0.f, camZ), glm::vec3(0.f, 0.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+    // camera/view transformation
+    glm::mat4 view = camera.view();
+    int viewLoc = glGetUniformLocation(ourShader.ID, "view");
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
     glBindVertexArray(VAO);

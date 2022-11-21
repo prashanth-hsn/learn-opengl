@@ -7,4 +7,7 @@
 #define RESOURCE_PREFIX  ".."
 #endif
 
+
+
+
 #endif // !LOGL_GLOBALS_H
